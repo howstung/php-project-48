@@ -1,0 +1,9 @@
+.git/
+.idea/
+
+/vendor/
+/asciinema/
+/.phpunit.cache/
+
+/test-reports/
+/coverage/

@@ -1,0 +1,37 @@
+##########################################################################
+#     - linter check
+#     - run tests
+##########################################################################
+
+name: PHP CI
+on: push
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.1"
+
+      - name: Install requirements
+        run: make install
+
+      - name: Run linter
+        run: make lint
+
+      - name: Run tests
+        run: make test
+
+      - name: Generate Clover code coverage
+        run: make test-coverage-text-report
+
+      - name: Publish test code coverage to CodeClimate
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        run: make publish-coverage-to-cc
+

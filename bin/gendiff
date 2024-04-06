@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+
+<?php
+
+use function Differ\Differ\genDiff;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$doc = <<<DOC
+Generate diff
+
+Usage:
+  gendiff (-h|--help)
+  gendiff (-v|--version)
+  gendiff [--format <fmt>] <firstFile> <secondFile>
+
+Options:
+  -h --help                     Show this screen
+  -v --version                  Show version
+  --format <fmt>                Report format [default: stylish]
+
+DOC;
+
+$args = Docopt::handle($doc, array('version' => 'Generate diff 1.0'));
+
+
+
+$pathToFile1 = $args->args['<firstFile>'];
+$pathToFile2 = $args->args['<secondFile>'];
+$formatName = $args->args['--format'];
+
+$diff = genDiff($pathToFile1, $pathToFile2, $formatName);
+print_r($diff);
